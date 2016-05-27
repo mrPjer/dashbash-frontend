@@ -7,12 +7,21 @@
         camera.attachControl(canvas, false);
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
 
-        var ground = BABYLON.Mesh.CreateGround('ground1', 60, 60, 2, scene);
+        var lava = BABYLON.Mesh.CreateGround('lava', 60, 60, 2, scene);
+        var lavaMaterial = new BABYLON.StandardMaterial("mat-lava", scene);
+        var lavaTexture = new BABYLON.Texture("tex-lava.png", scene);
+        lavaTexture.uScale = 10;
+        lavaTexture.vScale = 10;
+        lavaMaterial.diffuseTexture = lavaTexture;
+        lava.position.y = -0.01;
+        lava.material = lavaMaterial;
+
+        var ground = BABYLON.Mesh.CreateGround('ground1', 9, 9, 2, scene);
         var groundMaterial = new BABYLON.StandardMaterial("mat-ground", scene);
 
         var groundTexture = new BABYLON.Texture("tex-floor.png", scene);
-        groundTexture.uScale = 30.0;
-        groundTexture.vScale = 30.0;
+        groundTexture.uScale = 3.0;
+        groundTexture.vScale = 3.0;
         groundMaterial.diffuseTexture = groundTexture;
         ground.material = groundMaterial;
 
@@ -129,6 +138,9 @@
             player1.setPosition(player1.position.x - direction, player1.position.y, player1.position.z);
             player2.setPosition(player2.position.x, player2.position.y, player2.position.z + direction);
             player3.setPosition(player3.position.x, player3.position.y, player3.position.z - direction);
+
+            lavaTexture.uOffset += 0.001;
+            lavaTexture.vOffset -= 0.001;
         }, 16);
 
         return scene;
