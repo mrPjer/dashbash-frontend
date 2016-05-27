@@ -2,7 +2,7 @@
 
     var createScene = function(canvas, engine) {
         var scene = new BABYLON.Scene(engine);
-        var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0, -15, 0), scene);
+        var camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 10, new BABYLON.Vector3(0, -15, 0), scene);
         camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, false);
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
@@ -50,19 +50,23 @@
             var player = BABYLON.Mesh.CreateCylinder(name, 1, 1, 1.5, 12, 1, scene, false);
             var head = BABYLON.Mesh.CreateSphere(name + '-head', 16, 1, scene);
 
-            player.position.y = y;
-            player.position.x = x;
-            player.position.z = z;
-
-            head.position.y = y + 0.5;
-            head.position.x = x;
-            head.position.z = z;
-
             var material = new BABYLON.StandardMaterial(name + "-material", scene);
             material.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
 
             player.material = material;
             head.material = material;
+
+            player.setPosition = function(x, y, z) {
+                player.position.y = y;
+                player.position.x = x;
+                player.position.z = z;
+
+                head.position.y = y + 0.5;
+                head.position.x = x;
+                head.position.z = z;
+            }
+
+            player.setPosition(x, y, z);
 
             return player;
         }
@@ -89,9 +93,20 @@
         }
 
         var ball0 = makeBall("ball0", 1.5, 0.25, 0.66);
-        var ball0 = makeBall("ball1", -0.75, 0.25, -0.70);
-        var ball0 = makeBall("ball2", 0, 0.25, 0.25);
-        var ball0 = makeBall("ball3", 1, 0.25, 0.5);
+        var ball1 = makeBall("ball1", -0.75, 0.25, -0.70);
+        var ball2 = makeBall("ball2", 0, 0.25, 0.25);
+        var ball3 = makeBall("ball3", 1, 0.25, 0.5);
+
+        var direction = 0.025;
+        setInterval(function() {
+            if(player0.position.x >= 1 || player0.position.x <= -1) {
+                direction *= -1;
+            }
+            player0.setPosition(player0.position.x + direction, player0.position.y, player0.position.z);
+            player1.setPosition(player1.position.x - direction, player1.position.y, player1.position.z);
+            player2.setPosition(player2.position.x, player2.position.y, player2.position.z + direction);
+            player3.setPosition(player3.position.x, player3.position.y, player3.position.z - direction);
+        }, 16);
 
         return scene;
     }
