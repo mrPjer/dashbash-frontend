@@ -270,7 +270,6 @@
     var activeMoveOption;
 
     var runKey = function() {
-        console.log("run key");
         playerAction(activeMoveOption);
         clearTimeout(keyTimeout);
         keyTimeout = setTimeout(runKey, 25);
