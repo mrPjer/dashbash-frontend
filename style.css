@@ -1,9 +1,7 @@
 body {
-	background-color: black;
-}
-
-h1 {
-	color: white;
+    background-color: black;
+    font-family: Monospace;
+    font-size: 1.2em;
 }
 
 html, body {
@@ -16,6 +14,34 @@ html, body {
 
 #glcanvas {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     touch-action: none;
+    display: inline-block;
+}
+
+#info {
+    width: 30%;
+    height: 100%;
+    float: left;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 2em;
+    border-right: 1px solid #666;
+    overflow-y: auto;
+}
+
+#game {
+    width: 70%;
+    float: right;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #eee;
+    margin: 2em;
+}
+
+form {
+    margin: 2em;
 }

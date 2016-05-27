@@ -2,7 +2,7 @@
 
     var createScene = function(canvas, engine) {
         var scene = new BABYLON.Scene(engine);
-        var camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 10, new BABYLON.Vector3(0, -15, 0), scene);
+        var camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 12, new BABYLON.Vector3(0, -15, 0), scene);
         camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, false);
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
