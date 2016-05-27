@@ -266,14 +266,39 @@
         }
     }
 
+    var keyTimeout;
+    var activeMoveOption;
+
+    var runKey = function() {
+        console.log("run key");
+        playerAction(activeMoveOption);
+        clearTimeout(keyTimeout);
+        keyTimeout = setTimeout(runKey, 25);
+    }
+
     document.addEventListener("keydown", function(e) {
 
         if(e.keyCode == LEFT_KEY) {
-            playerAction(-MOVE_AMOUNT);
+            activeMoveOption = -MOVE_AMOUNT;
+            if(!keyTimeout) {
+                runKey();
+            }
             e.stopPropagation();
         } else if(e.keyCode == RIGHT_KEY) {
-            playerAction(MOVE_AMOUNT);
+            activeMoveOption = MOVE_AMOUNT;
+            if(!keyTimeout) {
+                runKey();
+            }
             e.stopPropagation();
+        }
+
+    });
+
+    document.addEventListener("keyup", function(e) {
+
+        if(e.keyCode == LEFT_KEY || e.keyCode == RIGHT_KEY) {
+            clearTimeout(keyTimeout);
+            keyTimeout = undefined;
         }
 
     });
