@@ -8,6 +8,8 @@
     var balls = [];
     var players = [];
 
+    var socket = undefined;
+
     var createScene = function(canvas, engine) {
         var scene = new BABYLON.Scene(engine);
         var camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 12, new BABYLON.Vector3(0, -15, 0), scene);
@@ -196,7 +198,7 @@
 
             console.log("Connecting to " + SOCKET_IO_ADDRESS);
 
-            var socket = io(SOCKET_IO_ADDRESS);
+            socket = io(SOCKET_IO_ADDRESS);
 
             socket.on("connect", function() {
                 console.log("Connected");
@@ -246,6 +248,16 @@
         playerPosition += direction;
         playerPosition = Math.max(-1, playerPosition);
         playerPosition = Math.min(1, playerPosition);
+
+        if(socket !== undefined) {
+            var data = {};
+            if(direction > 0) {
+                data.move = "right";
+            } else {
+                data.move = "left";
+            }
+            socket.emit("movement", data);
+        }
     }
 
     document.addEventListener("keydown", function(e) {
