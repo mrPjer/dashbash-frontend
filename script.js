@@ -12,7 +12,7 @@
 
         var makePillar = function(name) {
             var pillar = BABYLON.Mesh.CreateCylinder(name, 3, 1, 2, 6, 1, scene, false);
-            pillar.position.y = 1;
+            pillar.position.y = 1.5;
             return pillar;
         }
 
@@ -33,6 +33,24 @@
         pillarBottomRight.position.x = 3;
         pillarBottomRight.position.z = 3;
 
+        var makePlayer = function(name, x, y, z) {
+            var player = BABYLON.Mesh.CreateCylinder(name, 1, 1, 1.5, 12, 1, scene, false);
+            var head = BABYLON.Mesh.CreateSphere(name + '-head', 16, 1, scene);
+            player.position.y = y;
+            player.position.x = x;
+            player.position.z = z;
+
+            head.position.y = y + 0.5;
+            head.position.x = x;
+            head.position.z = z;
+
+            return player;
+        }
+
+        var player0 = makePlayer("player0", 0, 0.5, -3);
+        var player1 = makePlayer("player1", 0, 0.5, 3);
+        var player2 = makePlayer("player2", 3, 0.5, 0);
+        var player3 = makePlayer("player3", -3, 0.5, 0);
 
         return scene;
     }
