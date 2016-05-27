@@ -28,6 +28,7 @@ html, body {
     padding: 2em;
     border-right: 1px solid #666;
     overflow-y: auto;
+    padding-top: 5em;
 }
 
 #game {
