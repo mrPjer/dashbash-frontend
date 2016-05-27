@@ -1,6 +1,10 @@
 (function() {
 
+    var SOCKET_IO_ADDRESS = "http://127.0.0.1:3000"
+
     var playerPosition = undefined;
+
+    var balls = [];
 
     var createScene = function(canvas, engine) {
         var scene = new BABYLON.Scene(engine);
@@ -108,6 +112,8 @@
         var ball2 = makeBall("ball2", 0, 0.25, 0.25);
         var ball3 = makeBall("ball3", 1, 0.25, 0.5);
 
+        balls = [ball0, ball1, ball2, ball3];
+
         var makeNet = function(name, position, scaling, color, x, y, z) {
             var net = BABYLON.Mesh.CreateBox(name, 0.5, scene);
 
@@ -179,7 +185,32 @@
                 return;
             }
 
-            alert("Start game");
+            console.log("Connecting to " + SOCKET_IO_ADDRESS);
+
+            var socket = io(SOCKET_IO_ADDRESS);
+
+            socket.on("connect", function() {
+                console.log("Connected");
+            });
+
+            socket.on("error", function(data) {
+                console.log(error, data);
+            });
+
+            socket.on("disconnect", function() {
+                console.log("Disconnected");
+            });
+
+            socket.on("world state", function(data) {
+                console.log("World state", data);
+
+                for(var i in data.balls) {
+                    balls[i].position.x = data.balls[i][0]
+                    balls[i].position.z = data.balls[i][1]
+                }
+
+            });
+
         });
     });
 
