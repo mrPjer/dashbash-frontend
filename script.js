@@ -247,18 +247,19 @@
             });
 
             socket.on("world state", function(data) {
+                //console.log("World data", data);
                 autoplay = false;
 
-                playerNames[0].innerHTML = "PLAYER_1"; // TODO
+                playerNames[0].innerHTML = data.playerNames.top;
                 playerScores[0].innerHTML = data.scores.top;
 
-                playerNames[1].innerHTML = "PLAYER_2"; // TODO
+                playerNames[1].innerHTML = data.playerNames.left;
                 playerScores[1].innerHTML = data.scores.left;
 
-                playerNames[2].innerHTML = "PLAYER_3"; // TODO
+                playerNames[2].innerHTML = data.playerNames.bottom;
                 playerScores[2].innerHTML = data.scores.bottom;
 
-                playerNames[3].innerHTML = "PLAYER_4"; // TODO
+                playerNames[3].innerHTML = data.playerNames.right;
                 playerScores[3].innerHTML = data.scores.right;
 
                 var i;
