@@ -38,6 +38,7 @@ html, body {
 #game {
     width: 70%;
     float: right;
+    position: relative;
 }
 
 hr {
@@ -58,4 +59,42 @@ form {
 
 #wrapper.ingame #game {
     width: 100%;
+}
+
+#gameData {
+    position: absolute;;
+    left: 0;
+    right: 0;
+    display: inline-block;
+}
+
+#gameDataContainer {
+    margin-left: 2em;
+}
+
+#gameDataContainer p {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 1.2em;
+    display: inline;
+}
+
+#score_p1 {
+    color: rgb(153, 77, 204);
+    margin-top: 2em;
+}
+
+#score_p2 {
+    color: rgb(64, 128, 191);
+    margin-top: 2em;
+}
+
+#score_p3 {
+    color: rgb(26, 204, 26);
+    margin-top: 2em;
+}
+
+#score_p4 {
+    color: rgb(204, 26, 26);
+    margin-top: 2em;
 }
