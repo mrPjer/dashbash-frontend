@@ -257,7 +257,7 @@
             var data = {
                 username: playerName
             };
-            if(direction > 0) {
+            if(direction < 0) {
                 data.move = "right";
             } else {
                 data.move = "left";
