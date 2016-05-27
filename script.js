@@ -167,6 +167,20 @@
         engine.runRenderLoop(function() {
             scene.render();
         });
+
+        var startForm = document.getElementById("startForm");
+
+        startForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            var name = document.getElementById("name").value;
+
+            if(name == "") {
+                alert("Please input your name!");
+                return;
+            }
+
+            alert("Start game");
+        });
     });
 
     var LEFT_KEY = 37;
