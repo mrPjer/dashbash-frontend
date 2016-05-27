@@ -365,8 +365,8 @@
             keyTimeout = setTimeout(runKey, 25);
         }
 
-        canvas.addEventListener("mousedown", function(e) {
-            if(e.clientX < canvas.width / 2) {
+        canvas.addEventListener("touchstart", function(e) {
+            if(e.targetTouches[0].clientX < canvas.width / 2) {
                 activeMoveOption = -MOVE_AMOUNT;
                 if(!keyTimeout) {
                     runKey();
@@ -382,7 +382,7 @@
             e.preventDefault();
         });
 
-        canvas.addEventListener("mouseup", function(e) {
+        canvas.addEventListener("touchend", function(e) {
             clearTimeout(keyTimeout);
             keyTimeout = undefined;
         });
