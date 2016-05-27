@@ -214,9 +214,16 @@
                 //console.log("World state", data);
                 autoplay = false;
 
-                for(var i in data.balls) {
+                var i;
+
+                for(i in data.balls) {
                     balls[i].position.x = scalePosition(data.balls[i][0])
                     balls[i].position.z = scalePosition(data.balls[i][1])
+                    balls[i].position.y = 0.25;
+                }
+
+                for(i = parseInt(i) + 1; i < balls.length; ++i) {
+                    balls[i].position.y = -1;
                 }
 
                 players[0].setPosition(scalePosition(data.topPlayer[0]), 0.5, scalePosition(data.topPlayer[1]));
