@@ -97,6 +97,29 @@
         var ball2 = makeBall("ball2", 0, 0.25, 0.25);
         var ball3 = makeBall("ball3", 1, 0.25, 0.5);
 
+        var makeNet = function(name, position, scaling, color, x, y, z) {
+            var net = BABYLON.Mesh.CreateBox(name, 0.5, scene);
+
+            net.position.x = position[0];
+            net.position.z = position[1];
+            net.scaling.x = scaling[0];
+            net.scaling.z = scaling[1];
+            net.scaling.y = 0.5;
+
+            var material = new BABYLON.StandardMaterial(name + "-material", scene);
+            material.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
+            material.alpha = 0.25;
+
+            net.material = material;
+
+            return net;
+        }
+
+        var net0 = makeNet("net0", [3, 0], [1, 10], [0.60, 0.30, 0.80]);
+        var net1 = makeNet("net1", [-3, 0], [1, 10], [0.25, 0.50, 0.75]);
+        var net2 = makeNet("net2", [0, 3], [10, 1], [0.10, 0.80, 0.10]);
+        var net3 = makeNet("net3", [0, -3], [10, 1], [0.80, 0.10, 0.10]);
+
         var direction = 0.025;
         setInterval(function() {
             if(player0.position.x >= 1 || player0.position.x <= -1) {
