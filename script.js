@@ -142,29 +142,24 @@
         var net3 = makeNet("net3", [0, -3], [10, 1], [0.80, 0.10, 0.10]);
 
         var direction = 0.025;
-        var performAutoplay = function() {
-            if(player0.position.x >= 1 || player0.position.x <= -1) {
-                direction *= -1;
-            }
-            player0.setPosition(player0.position.x + direction, player0.position.y, player0.position.z);
-            player1.setPosition(player1.position.x - direction, player1.position.y, player1.position.z);
-            player2.setPosition(player2.position.x, player2.position.y, player2.position.z + direction);
-            player3.setPosition(player3.position.x, player3.position.y, player3.position.z - direction);
+        setInterval(function() {
+            if(autoplay) {
+                if(player0.position.x >= 1 || player0.position.x <= -1) {
+                    direction *= -1;
+                }
+                player0.setPosition(player0.position.x + direction, player0.position.y, player0.position.z);
+                player1.setPosition(player1.position.x - direction, player1.position.y, player1.position.z);
+                player2.setPosition(player2.position.x, player2.position.y, player2.position.z + direction);
+                player3.setPosition(player3.position.x, player3.position.y, player3.position.z - direction);
 
-            if(playerPosition !== undefined) {
-
-                player2.setPosition(player2.position.x, player2.position.y, playerPosition);
+                if(playerPosition !== undefined) {
+                    player2.setPosition(player2.position.x, player2.position.y, playerPosition);
+                }
             }
 
             lavaTexture.uOffset += 0.001;
             lavaTexture.vOffset -= 0.001;
-
-            if(autoplay) {
-                setTimeout(performAutoplay, 16);
-            }
-        };
-
-        performAutoplay();
+        }, 16);
 
         return scene;
     }
