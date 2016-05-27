@@ -20,7 +20,7 @@
         var scene = new BABYLON.Scene(engine);
         camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 12, new BABYLON.Vector3(0, -15, 0), scene);
         camera.setTarget(BABYLON.Vector3.Zero());
-        camera.attachControl(canvas, false);
+        //camera.attachControl(canvas, false);
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
 
         var lava = BABYLON.Mesh.CreateGround('lava', 60, 60, 2, scene);
@@ -331,67 +331,89 @@
             });
 
         });
-    });
+        var LEFT_KEY = 37;
+        var RIGHT_KEY = 39;
+        var MOVE_AMOUNT = 0.15;
 
-    var LEFT_KEY = 37;
-    var RIGHT_KEY = 39;
-    var MOVE_AMOUNT = 0.15;
+        var playerAction = function(direction) {
+            if(playerPosition == undefined) {
+                playerPosition = 0;
+            }
+            playerPosition += direction;
+            playerPosition = Math.max(-1, playerPosition);
+            playerPosition = Math.min(1, playerPosition);
 
-    var playerAction = function(direction) {
-        if(playerPosition == undefined) {
-            playerPosition = 0;
+            if(socket !== undefined) {
+                var data = {
+                    username: playerName
+                };
+                if(direction < 0) {
+                    data.move = "right";
+                } else {
+                    data.move = "left";
+                }
+                socket.emit("movement", data);
+            }
         }
-        playerPosition += direction;
-        playerPosition = Math.max(-1, playerPosition);
-        playerPosition = Math.min(1, playerPosition);
 
-        if(socket !== undefined) {
-            var data = {
-                username: playerName
-            };
-            if(direction < 0) {
-                data.move = "right";
+        var keyTimeout;
+        var activeMoveOption;
+
+        var runKey = function() {
+            playerAction(activeMoveOption);
+            clearTimeout(keyTimeout);
+            keyTimeout = setTimeout(runKey, 25);
+        }
+
+        canvas.addEventListener("mousedown", function(e) {
+            if(e.clientX < canvas.width / 2) {
+                activeMoveOption = -MOVE_AMOUNT;
+                if(!keyTimeout) {
+                    runKey();
+                }
             } else {
-                data.move = "left";
+                activeMoveOption = MOVE_AMOUNT;
+                if(!keyTimeout) {
+                    runKey();
+                }
             }
-            socket.emit("movement", data);
-        }
-    }
 
-    var keyTimeout;
-    var activeMoveOption;
-
-    var runKey = function() {
-        playerAction(activeMoveOption);
-        clearTimeout(keyTimeout);
-        keyTimeout = setTimeout(runKey, 25);
-    }
-
-    document.addEventListener("keydown", function(e) {
-
-        if(e.keyCode == LEFT_KEY) {
-            activeMoveOption = -MOVE_AMOUNT;
-            if(!keyTimeout) {
-                runKey();
-            }
             e.stopPropagation();
-        } else if(e.keyCode == RIGHT_KEY) {
-            activeMoveOption = MOVE_AMOUNT;
-            if(!keyTimeout) {
-                runKey();
-            }
-            e.stopPropagation();
-        }
+            e.preventDefault();
+        });
 
-    });
-
-    document.addEventListener("keyup", function(e) {
-
-        if(e.keyCode == LEFT_KEY || e.keyCode == RIGHT_KEY) {
+        canvas.addEventListener("mouseup", function(e) {
             clearTimeout(keyTimeout);
             keyTimeout = undefined;
-        }
+        });
 
-    });
+        document.addEventListener("keydown", function(e) {
+
+            if(e.keyCode == LEFT_KEY) {
+                activeMoveOption = -MOVE_AMOUNT;
+                if(!keyTimeout) {
+                    runKey();
+                }
+                e.stopPropagation();
+            } else if(e.keyCode == RIGHT_KEY) {
+                activeMoveOption = MOVE_AMOUNT;
+                if(!keyTimeout) {
+                    runKey();
+                }
+                e.stopPropagation();
+            }
+
+        });
+
+        document.addEventListener("keyup", function(e) {
+
+            if(e.keyCode == LEFT_KEY || e.keyCode == RIGHT_KEY) {
+                clearTimeout(keyTimeout);
+                keyTimeout = undefined;
+            }
+
+        });
+
+        });
 
 })();
