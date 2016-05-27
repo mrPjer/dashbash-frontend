@@ -6,7 +6,15 @@
         camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, false);
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
-        var ground = BABYLON.Mesh.CreateGround('ground1', 6, 6, 2, scene);
+
+        var ground = BABYLON.Mesh.CreateGround('ground1', 60, 60, 2, scene);
+        var groundMaterial = new BABYLON.StandardMaterial("mat-ground", scene);
+
+        var groundTexture = new BABYLON.Texture("tex-floor.png", scene);
+        groundTexture.uScale = 20.0;
+        groundTexture.vScale = 20.0;
+        groundMaterial.diffuseTexture = groundTexture;
+        ground.material = groundMaterial;
 
         var makePillar = function(name) {
             var pillar = BABYLON.Mesh.CreateCylinder(name, 3, 1, 2, 6, 1, scene, false);
