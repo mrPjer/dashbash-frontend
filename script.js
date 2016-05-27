@@ -1,5 +1,7 @@
 (function() {
 
+    var playerPosition = undefined;
+
     var createScene = function(canvas, engine) {
         var scene = new BABYLON.Scene(engine);
         var camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 12, new BABYLON.Vector3(0, -15, 0), scene);
@@ -139,6 +141,11 @@
             player2.setPosition(player2.position.x, player2.position.y, player2.position.z + direction);
             player3.setPosition(player3.position.x, player3.position.y, player3.position.z - direction);
 
+            if(playerPosition !== undefined) {
+
+                player2.setPosition(player2.position.x, player2.position.y, playerPosition);
+            }
+
             lavaTexture.uOffset += 0.001;
             lavaTexture.vOffset -= 0.001;
         }, 16);
@@ -161,4 +168,30 @@
             scene.render();
         });
     });
+
+    var LEFT_KEY = 37;
+    var RIGHT_KEY = 39;
+    var MOVE_AMOUNT = 0.15;
+
+    var playerAction = function(direction) {
+        if(playerPosition == undefined) {
+            playerPosition = 0;
+        }
+        playerPosition += direction;
+        playerPosition = Math.max(-1, playerPosition);
+        playerPosition = Math.min(1, playerPosition);
+    }
+
+    document.addEventListener("keydown", function(e) {
+
+        if(e.keyCode == LEFT_KEY) {
+            playerAction(-MOVE_AMOUNT);
+            e.stopPropagation();
+        } else if(e.keyCode == RIGHT_KEY) {
+            playerAction(MOVE_AMOUNT);
+            e.stopPropagation();
+        }
+
+    });
+
 })();
