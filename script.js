@@ -6,8 +6,6 @@
         camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, false);
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
-        var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 2, scene);
-        sphere.position.y = 1;
         var ground = BABYLON.Mesh.CreateGround('ground1', 6, 6, 2, scene);
 
         var makePillar = function(name) {
@@ -51,6 +49,18 @@
         var player1 = makePlayer("player1", 0, 0.5, 3);
         var player2 = makePlayer("player2", 3, 0.5, 0);
         var player3 = makePlayer("player3", -3, 0.5, 0);
+
+        var makeBall = function(name, x, y, z) {
+            var ball = BABYLON.Mesh.CreateSphere(name, 8, 0.5, scene);
+            ball.position.y = y;
+            ball.position.x = x;
+            ball.position.z = z;
+        }
+
+        var ball0 = makeBall("ball0", 1.5, 0.25, 0.66);
+        var ball0 = makeBall("ball1", -0.75, 0.25, -0.70);
+        var ball0 = makeBall("ball2", 0, 0.25, 0.25);
+        var ball0 = makeBall("ball3", 1, 0.25, 0.5);
 
         return scene;
     }
