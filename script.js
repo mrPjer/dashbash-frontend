@@ -4,7 +4,9 @@
 
     var playerPosition = undefined;
 
+    var autoplay = true;
     var balls = [];
+    var players = [];
 
     var createScene = function(canvas, engine) {
         var scene = new BABYLON.Scene(engine);
@@ -91,6 +93,8 @@
         var player2 = makePlayer("player2", [0.60, 0.30, 0.80], 3, 0.5, 0);
         var player3 = makePlayer("player3", [0.25, 0.50, 0.75], -3, 0.5, 0);
 
+        players = [player0, player1, player2, player3];
+
         var ballMaterial = new BABYLON.StandardMaterial("ball-texture", scene);
         ballMaterial.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
         ballMaterial.specularColor = new BABYLON.Color3(1.0, 0, 0);
@@ -138,7 +142,7 @@
         var net3 = makeNet("net3", [0, -3], [10, 1], [0.80, 0.10, 0.10]);
 
         var direction = 0.025;
-        setInterval(function() {
+        var performAutoplay = function() {
             if(player0.position.x >= 1 || player0.position.x <= -1) {
                 direction *= -1;
             }
@@ -154,7 +158,13 @@
 
             lavaTexture.uOffset += 0.001;
             lavaTexture.vOffset -= 0.001;
-        }, 16);
+
+            if(autoplay) {
+                setTimeout(performAutoplay, 16);
+            }
+        };
+
+        performAutoplay();
 
         return scene;
     }
@@ -175,6 +185,10 @@
         });
 
         var startForm = document.getElementById("startForm");
+
+        var scalePosition = function(position) {
+            return position * 6 - 3;
+        }
 
         startForm.addEventListener("submit", function(e) {
             e.preventDefault();
@@ -202,13 +216,18 @@
             });
 
             socket.on("world state", function(data) {
-                console.log("World state", data);
+                //console.log("World state", data);
+                autoplay = false;
 
                 for(var i in data.balls) {
-                    balls[i].position.x = data.balls[i][0]
-                    balls[i].position.z = data.balls[i][1]
+                    balls[i].position.x = scalePosition(data.balls[i][0])
+                    balls[i].position.z = scalePosition(data.balls[i][1])
                 }
 
+                players[0].setPosition(scalePosition(data.topPlayer[0]), 0.5, scalePosition(data.topPlayer[1]));
+                players[1].setPosition(scalePosition(data.bottomPlayer[0]), 0.5, scalePosition(data.bottomPlayer[1]));
+                players[2].setPosition(scalePosition(data.rightPlayer[0]), 0.5, scalePosition(data.rightPlayer[1]));
+                players[3].setPosition(scalePosition(data.leftPlayer[0]), 0.5, scalePosition(data.leftPlayer[1]));
             });
 
         });
