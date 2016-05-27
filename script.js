@@ -3,6 +3,7 @@
     var SOCKET_IO_ADDRESS = "http://127.0.0.1:3000"
 
     var playerPosition = undefined;
+    var playerName = undefined;
 
     var autoplay = true;
     var balls = [];
@@ -189,9 +190,9 @@
 
         startForm.addEventListener("submit", function(e) {
             e.preventDefault();
-            var name = document.getElementById("name").value;
+            playerName = document.getElementById("name").value;
 
-            if(name == "") {
+            if(playerName == "") {
                 alert("Please input your name!");
                 return;
             }
@@ -202,6 +203,9 @@
 
             socket.on("connect", function() {
                 console.log("Connected");
+                socket.emit("newPlayer", {
+                    username: playerName
+                });
             });
 
             socket.on("error", function(data) {
@@ -250,7 +254,9 @@
         playerPosition = Math.min(1, playerPosition);
 
         if(socket !== undefined) {
-            var data = {};
+            var data = {
+                username: playerName
+            };
             if(direction > 0) {
                 data.move = "right";
             } else {
