@@ -11,6 +11,9 @@
 
     var socket = undefined;
 
+    var playerNames = [];
+    var playerScores = [];
+
     var createScene = function(canvas, engine) {
         var scene = new BABYLON.Scene(engine);
         var camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 12, new BABYLON.Vector3(0, -15, 0), scene);
@@ -182,6 +185,20 @@
             scene.render();
         });
 
+        playerNames = [
+            document.getElementById("p1_name"),
+            document.getElementById("p2_name"),
+            document.getElementById("p3_name"),
+            document.getElementById("p4_name")
+        ];
+
+        playerScores = [
+            document.getElementById("p1_score"),
+            document.getElementById("p2_score"),
+            document.getElementById("p3_score"),
+            document.getElementById("p4_score")
+        ];
+
         var startForm = document.getElementById("startForm");
 
         var scalePosition = function(position) {
@@ -198,7 +215,7 @@
 
             var resizeEngine = function() {
                 engine.resize();
-                if(elapsed < 300) {
+                if(elapsed < 505) {
                     setTimeout(resizeEngine, 16);
                 }
             }
@@ -230,8 +247,19 @@
             });
 
             socket.on("world state", function(data) {
-                //console.log("World state", data);
                 autoplay = false;
+
+                playerNames[0].innerHTML = "PLAYER_1"; // TODO
+                playerScores[0].innerHTML = data.scores.top;
+
+                playerNames[1].innerHTML = "PLAYER_2"; // TODO
+                playerScores[1].innerHTML = data.scores.left;
+
+                playerNames[2].innerHTML = "PLAYER_3"; // TODO
+                playerScores[2].innerHTML = data.scores.bottom;
+
+                playerNames[3].innerHTML = "PLAYER_4"; // TODO
+                playerScores[3].innerHTML = data.scores.right;
 
                 var i;
 

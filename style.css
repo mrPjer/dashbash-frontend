@@ -5,7 +5,7 @@ body {
 }
 
 * {
-    transition: any, 0.2s;
+    transition: any, 0.5s;
 }
 
 html, body {
@@ -64,23 +64,30 @@ form {
 #gameData {
     position: absolute;;
     left: 0;
-    right: 0;
     display: inline-block;
+    opacity: 0;
+}
+
+#wrapper.ingame #gameData {
+    opacity: 1;
 }
 
 #gameDataContainer {
     margin-left: 2em;
 }
 
-#gameDataContainer p {
+#gameDataContainer td {
     font-weight: bold;
     font-size: 1.2em;
-    margin-top: 1.2em;
-    display: inline;
+    padding-top: 1.2em;
+}
+
+#gameDataContainer td:nth-child(2) {
+    padding-left: 2em;
 }
 
 #score_p1 {
-    color: rgb(153, 77, 204);
+    color: rgb(204, 26, 26);
     margin-top: 2em;
 }
 
@@ -95,6 +102,6 @@ form {
 }
 
 #score_p4 {
-    color: rgb(204, 26, 26);
     margin-top: 2em;
+    color: rgb(153, 77, 204);
 }
