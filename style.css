@@ -4,6 +4,10 @@ body {
     font-size: 1.2em;
 }
 
+* {
+    transition: any, 0.2s;
+}
+
 html, body {
     overflow: hidden;
     width: 100%;
@@ -45,4 +49,13 @@ hr {
 
 form {
     margin: 2em;
+}
+
+#wrapper.ingame #info {
+    width: 0;
+    display: none;
+}
+
+#wrapper.ingame #game {
+    width: 100%;
 }

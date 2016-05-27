@@ -192,6 +192,19 @@
             e.preventDefault();
             playerName = document.getElementById("name").value;
 
+            document.getElementById("wrapper").className += " ingame";
+
+            var elapsed = 0;
+
+            var resizeEngine = function() {
+                engine.resize();
+                if(elapsed < 300) {
+                    setTimeout(resizeEngine, 16);
+                }
+            }
+
+            resizeEngine();
+
             if(playerName == "") {
                 alert("Please input your name!");
                 return;
