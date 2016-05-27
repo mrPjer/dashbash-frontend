@@ -31,9 +31,10 @@
         pillarBottomRight.position.x = 3;
         pillarBottomRight.position.z = 3;
 
-        var makePlayer = function(name, x, y, z) {
+        var makePlayer = function(name, color, x, y, z) {
             var player = BABYLON.Mesh.CreateCylinder(name, 1, 1, 1.5, 12, 1, scene, false);
             var head = BABYLON.Mesh.CreateSphere(name + '-head', 16, 1, scene);
+
             player.position.y = y;
             player.position.x = x;
             player.position.z = z;
@@ -42,19 +43,33 @@
             head.position.x = x;
             head.position.z = z;
 
+            var material = new BABYLON.StandardMaterial(name + "-material", scene);
+            material.diffuseColor = new BABYLON.Color3(color[0], color[1], color[2]);
+
+            player.material = material;
+            head.material = material;
+
             return player;
         }
 
-        var player0 = makePlayer("player0", 0, 0.5, -3);
-        var player1 = makePlayer("player1", 0, 0.5, 3);
-        var player2 = makePlayer("player2", 3, 0.5, 0);
-        var player3 = makePlayer("player3", -3, 0.5, 0);
+        var player0 = makePlayer("player0", [0.80, 0.10, 0.10], 0, 0.5, -3);
+        var player1 = makePlayer("player1", [0.10, 0.80, 0.10], 0, 0.5, 3);
+        var player2 = makePlayer("player2", [0.60, 0.30, 0.80], 3, 0.5, 0);
+        var player3 = makePlayer("player3", [0.25, 0.50, 0.75], -3, 0.5, 0);
+
+        var ballMaterial = new BABYLON.StandardMaterial("ball-texture", scene);
+        ballMaterial.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
+        ballMaterial.specularColor = new BABYLON.Color3(1.0, 0, 0);
 
         var makeBall = function(name, x, y, z) {
             var ball = BABYLON.Mesh.CreateSphere(name, 8, 0.5, scene);
             ball.position.y = y;
             ball.position.x = x;
             ball.position.z = z;
+
+            ball.material = ballMaterial;
+
+            return ball;
         }
 
         var ball0 = makeBall("ball0", 1.5, 0.25, 0.66);
