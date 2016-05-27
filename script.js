@@ -1,34 +1,31 @@
-var gl;
+(function() {
 
-var initWebGL = function(canvas) {
+    var createScene = function(canvas, engine) {
+        var scene = new BABYLON.Scene(engine);
+        var camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, -10), scene);
+        camera.setTarget(BABYLON.Vector3.Zero());
+        camera.attachControl(canvas, false);
+        var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
+        var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 2, scene);
+        sphere.position.y = 1;
+        var ground = BABYLON.Mesh.CreateGround('ground1', 6, 6, 2, scene);
 
-    gl = null;
-
-    try {
-        gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-    } catch(e) {
-        console.log(e);
+        return scene;
     }
 
-    return gl;
-}
+    window.addEventListener("DOMContentLoaded", function() {
+        var canvas = document.getElementById("glcanvas");
 
-var start = function() {
-    var canvas = document.getElementById("glcanvas");
+        var engine = new BABYLON.Engine(canvas, true);
 
-    gl = initWebGL(canvas);
+        var scene = createScene(canvas, engine);
 
-    if(!gl) {
-        alert("No WebGL support!");
-        return;
-    }
+        window.addEventListener('resize', function() {
+            engine.resize();
+        });
 
-    canvas.onresize = function() {
-        gl.viewport(0, 0, canvas.width, canvas.height);
-    }
-
-    gl.clearColor(1, 0, 0, 1.0);
-    gl.enable(gl.DEPTH_TEST);
-    gl.depthFunc(gl.LEQUAL);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-}
+        engine.runRenderLoop(function() {
+            scene.render();
+        });
+    });
+})();
