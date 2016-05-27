@@ -14,9 +14,11 @@
     var playerNames = [];
     var playerScores = [];
 
+    var camera;
+
     var createScene = function(canvas, engine) {
         var scene = new BABYLON.Scene(engine);
-        var camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 12, new BABYLON.Vector3(0, -15, 0), scene);
+        camera = new BABYLON.ArcRotateCamera("Camera", 0, 1, 12, new BABYLON.Vector3(0, -15, 0), scene);
         camera.setTarget(BABYLON.Vector3.Zero());
         camera.attachControl(canvas, false);
         var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
@@ -248,6 +250,22 @@
 
             var oldNames = ['', '', '', ''];
             var oldScores = [-1, -1, -1, -1];
+
+            socket.on('positionAssigned', function(data) {
+                var cameraPosition;
+
+                if(data.position == 'left') {
+                    cameraPosition = 3.14;
+                } else if(data.position == 'right') {
+                    cameraPosition = 0;
+                } else if(data.position == 'top') {
+                    cameraPosition = 4.71;
+                } else if(data.position == 'bottom') {
+                    cameraPosition = 1.57;
+                }
+
+                camera.alpha = cameraPosition;
+            });
 
             socket.on("world state", function(data) {
                 //console.log("World data", data);
