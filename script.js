@@ -246,21 +246,53 @@
                 console.log("Disconnected");
             });
 
+            var oldNames = ['', '', '', ''];
+            var oldScores = [-1, -1, -1, -1];
+
             socket.on("world state", function(data) {
                 //console.log("World data", data);
                 autoplay = false;
 
-                playerNames[0].innerHTML = data.playerNames.top;
-                playerScores[0].innerHTML = data.scores.top;
+                if(data.playerNames.top != oldNames[0]) {
+                console.log('name change 0');
+                    playerNames[0].innerHTML = data.playerNames.top;
+                    oldNames[0] = data.playerNames.top;
+                }
 
-                playerNames[1].innerHTML = data.playerNames.left;
-                playerScores[1].innerHTML = data.scores.left;
+                if(data.scores.top != oldScores[0]) {
+                    playerScores[0].innerHTML = data.scores.top;
+                    oldScores[0] = data.scores.top;
+                }
 
-                playerNames[2].innerHTML = data.playerNames.bottom;
-                playerScores[2].innerHTML = data.scores.bottom;
+                if(data.playerNames.left != oldNames[1]) {
+                    playerNames[1].innerHTML = data.playerNames.left;
+                    oldNames[1] = data.playerNames.left;
+                }
 
-                playerNames[3].innerHTML = data.playerNames.right;
-                playerScores[3].innerHTML = data.scores.right;
+                if(data.scores.left != oldScores[1]) {
+                    playerScores[1].innerHTML = data.scores.left;
+                    oldScores[1] = data.scores.left;
+                }
+
+                if(data.playerNames.bottom != oldNames[2]) {
+                    playerNames[2].innerHTML = data.playerNames.bottom;
+                    oldNames[2] = data.playerNames.bottom;
+                }
+
+                if(data.scores.bottom!= oldScores[2]) {
+                    playerScores[2].innerHTML = data.scores.bottom;
+                    oldScores[2] = data.scores.bottom;
+                }
+
+                if(data.playerNames.right != oldNames[3]) {
+                    playerNames[3].innerHTML = data.playerNames.right;
+                    oldNames[3] = data.playerNames.right;
+                }
+
+                if(data.scores.right != oldScores[3]) {
+                    playerScores[3].innerHTML = data.scores.right;
+                    oldScores[3] = data.scores.right;
+                }
 
                 var i;
 
