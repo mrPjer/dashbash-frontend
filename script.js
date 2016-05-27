@@ -60,6 +60,7 @@
         var ballMaterial = new BABYLON.StandardMaterial("ball-texture", scene);
         ballMaterial.diffuseColor = new BABYLON.Color3(1.0, 1.0, 1.0);
         ballMaterial.specularColor = new BABYLON.Color3(1.0, 0, 0);
+        ballMaterial.emissiveColor = new BABYLON.Color3(0.05, 0, 0);
 
         var makeBall = function(name, x, y, z) {
             var ball = BABYLON.Mesh.CreateSphere(name, 8, 0.5, scene);
