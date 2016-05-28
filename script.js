@@ -366,7 +366,15 @@
         }
 
         canvas.addEventListener("touchstart", function(e) {
-            if(e.targetTouches[0].clientX < canvas.width / 2) {
+            var xTouch = e.touches[0].clientX;
+            var distanceLeft = window.innerWidth - canvas.offsetWidth;
+            var canvasTouchX = xTouch - distanceLeft;
+
+            if(isNaN(xTouch)) {
+                return;
+            }
+
+            if(canvasTouchX < canvas.offsetWidth / 2) {
                 activeMoveOption = -MOVE_AMOUNT;
                 if(!keyTimeout) {
                     runKey();
