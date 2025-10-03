@@ -1,7 +1,5 @@
 (function() {
 
-    var SOCKET_IO_ADDRESS = "http://127.0.0.1:3000"
-
     var playerPosition = undefined;
     var playerName = undefined;
 
@@ -229,9 +227,7 @@
                 return;
             }
 
-            console.log("Connecting to " + SOCKET_IO_ADDRESS);
-
-            socket = io(SOCKET_IO_ADDRESS);
+            socket = io();
 
             socket.on("connect", function() {
                 console.log("Connected");
